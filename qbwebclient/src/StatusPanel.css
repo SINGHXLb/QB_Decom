@@ -1,0 +1,32 @@
+.neutral {
+    border-radius: 100px;
+    width: 30px;
+    height: 30px;
+    background-color: #647bab;
+    border: none;
+    margin: 5px;
+    font-size: smaller;
+}
+.wrong {
+    border-radius: 100px;
+    width: 30px;
+    height: 30px;
+    background-color: #a10505;
+    border: none;
+    margin: 5px;
+    font-size: smaller;
+}
+.correct {
+    border-radius: 100px;
+    width: 30px;
+    height: 30px;
+    background-color:#488f45;
+    border: none;
+    margin: 5px;
+    font-size:smaller;
+}
+.current {
+    border-color: rgba(82,168,236,.8);
+    box-shadow: 0 15px 10px rgba(82,168,236,.8) inset;
+    outline: 0 none;
+}

@@ -1,0 +1,33 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32414.318
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QB2API", "QB2API.csproj", "{52937C69-46ED-4B2F-AC24-434366749985}"
+EndProject
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "QBWebClient", "..\qbwebclient\QBWebClient.esproj", "{F1000B3D-5F8C-4B6D-B869-9FF4A45D9A53}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{52937C69-46ED-4B2F-AC24-434366749985}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52937C69-46ED-4B2F-AC24-434366749985}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{52937C69-46ED-4B2F-AC24-434366749985}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{52937C69-46ED-4B2F-AC24-434366749985}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F1000B3D-5F8C-4B6D-B869-9FF4A45D9A53}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F1000B3D-5F8C-4B6D-B869-9FF4A45D9A53}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F1000B3D-5F8C-4B6D-B869-9FF4A45D9A53}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{F1000B3D-5F8C-4B6D-B869-9FF4A45D9A53}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F1000B3D-5F8C-4B6D-B869-9FF4A45D9A53}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F1000B3D-5F8C-4B6D-B869-9FF4A45D9A53}.Release|Any CPU.Deploy.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5EE6213F-3B6F-4FC4-B5BF-0666BDB89B5D}
+	EndGlobalSection
+EndGlobal

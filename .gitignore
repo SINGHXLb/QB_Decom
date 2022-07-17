@@ -1,0 +1,9 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/qbwebclient/node_modules
+/QB2API/bin/Debug/net6.0
+/QB2API/.vs
+/QB2API/obj
+/qbwebclient/.vs/QBWebClient
