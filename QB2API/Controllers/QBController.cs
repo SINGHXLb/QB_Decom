@@ -40,7 +40,12 @@ namespace QB2API.Controllers
             List<QuestionAPIResponseModel> result = new List<QuestionAPIResponseModel>();
             Model.QBDBContext c = new QBDBContext();
             result = c.QuestionStores.Select(x => new QuestionAPIResponseModel  { Guid=x.Guid, Question= JsonConvert.DeserializeObject<QuestionModel>(x.Data) }).ToList();
-            
+            //remove answer 
+            foreach (QuestionAPIResponseModel quesiton in result) 
+            {
+                foreach (Answer ans in quesiton.Question.Answers)
+                { ans.IsAnswer = false; }
+            }
             return result;
         }
 

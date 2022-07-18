@@ -108,6 +108,14 @@ const Display = () => {
                         
                         //set question to submitted
                         questions.find(i => i.guid == currentGuid)!.question.isSubmitted = true;
+
+                        //set correct answers in state to do react magic
+
+                        questions.find(i => i.guid == currentGuid)!.question.answers.forEach(localanswer => {
+                            localanswer.isAnswer = (correctAnswers.filter(correctans => correctans.id == localanswer.id).length > 0);
+                        });
+
+
                         // if all and only correct answers are checked ,
                         //then set 'hasCorrectAnswer' property to true
                         questions.find(i => i.guid == currentGuid)!.question.answers.forEach(localanswer => {
@@ -142,48 +150,47 @@ const Display = () => {
     return (
         <Container>
             <Row>
-                <Col>  <Col>
+                 <Col>
 
                     {
                         currentQuestionNumber == -1 &&
                         <Button variant="secondary" onClick={() => getQuestions()}>   Load Questions  </Button>
                     }
 
-                </Col> </Col>
+               </Col>
             </Row>
             <Row>
+              
                
-                <Col xs={8}>
+                <Col lg="7" md="7">
                     {
                         currentQuestionNumber >= 0 &&
                         <Question key={questions[currentQuestionNumber].guid} data={questions[currentQuestionNumber]} handleAnswerChange={handleAnswerChange}  />
 
                     }
-                </Col>
-                <Col>
 
+
+                </Col>
+                
+                <Col lg="3" md="3"  className="d-none d-md-block" >
+
+                    <StatusPanel data={questions} current={currentQuestionNumber} handleNavigationClick={handleNavigationClick} /> 
+
+                </Col>
+                <Col> 
                     {
                         currentQuestionNumber >= 0 &&
-                        <Button size="sm" onClick={() => submitAnswer(questions[currentQuestionNumber].guid)}  >  {'Submit'}  </Button>
-
+                        <Button disabled={questions[currentQuestionNumber].question.isSubmitted} size="sm" onClick={() => submitAnswer(questions[currentQuestionNumber].guid)}  >  {'Submit'}  </Button>
                     }
-                    <StatusPanel data={questions} current={currentQuestionNumber} handleNavigationClick={handleNavigationClick} />
-
-                      
-
-
                 </Col>
-                <Col></Col>
             </Row>
-            <Row>
-                
-
-                <Col>
+            <Row lg="6"  className="d-block d-md-none" >
+                <Col >
                     {
                         currentQuestionNumber >= 0 &&
                         <Button  size="sm"  onClick={() => setCurrentQuestion(currentQuestionNumber - 1)} disabled={currentQuestionNumber == 0}>    {'Previous'}   </Button>
                     }
-
+                    &nbsp;
                     {
                         currentQuestionNumber >= 0 &&
                         <Button size="sm"  onClick={() => setCurrentQuestion(currentQuestionNumber + 1)} disabled={questions.length <= currentQuestionNumber + 1}  >  {'Next'}  </Button>

@@ -14,3 +14,16 @@
     background-color: #F5F5F5;
 }
 
+.wronganswer {
+    margin: 5px;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #d4bdbd;
+}
+
+.correctanswer {
+    margin: 5px;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #dcf1d3;
+}
