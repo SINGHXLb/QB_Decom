@@ -80,14 +80,14 @@ const Display = () => {
     const [currentQuestionNumber, setCurrentQuestion] = useState(-1); 
     const url = 'https://localhost:7195/api/Questions/'; 
 
-    const getQuestions = () => {  
+    const getQuestions = () => {
         axios.get(url)
             .then((response) => {
-                setQuestions(response.data); 
+                setQuestions(response.data);
                 setCurrentQuestion(0);
-                 
+
             })
-            .catch(error => console.error('${error}'))
+            .catch(error => console.error('error'))
         
        
     } 
@@ -137,7 +137,7 @@ const Display = () => {
                     });
 
                 })
-                .catch(error => console.error('${error}'))
+                .catch(error => console.error('error submitting '))
 
 
       

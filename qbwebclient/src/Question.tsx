@@ -54,7 +54,7 @@ export const Question = (props: Questionset  ) => {
                             <Accordion.Item eventKey="0">
                                 <Accordion.Header>Display Image</Accordion.Header>
                                 <Accordion.Body>
-                                    <img src={props.data.question.questionImage} alt="No Image" />
+                                {/*    <img src={props.data.question.questionImage}  />*/}
                                 </Accordion.Body>
                             </Accordion.Item>
                     </Accordion>
@@ -70,13 +70,13 @@ export const Question = (props: Questionset  ) => {
                             props.data.question.questionTypes.multiChoice ?
                                 <div>
                                     <input key={"txt" + ans.id} id={ans.id} type="checkbox" name={props.data.guid} checked={ans.isChecked} onChange={props.handleAnswerChange} /> {ans.answerText}
-                                    <img key={"img"+ans.id}  src={ans.answerImage} alt="No Image" />
+                                   {/* <img key={"img"+ans.id}  src={ans.answerImage}  />*/}
                                 </div>
                      
                        :
                                 <div>
                                     <input key={"txt" + ans.id}  id={ans.id} type="radio" name={props.data.guid} checked={ans.isChecked} onChange={props.handleAnswerChange} /> {ans.answerText} 
-                                    <img key={"img" + ans.id} src={ans.answerImage} alt="No Image" />  
+                                    {/*<img key={"img" + ans.id} src={ans.answerImage}  />  */}
                             </div> 
                         }
                      
