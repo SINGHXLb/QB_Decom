@@ -1,5 +1,5 @@
-import React, { MouseEventHandler } from 'react';
-import Button from 'react-bootstrap/Button';
+
+
 
 
 import './StatusPanel.css';
@@ -41,7 +41,7 @@ export const StatusPanel = (props: PanelModel ) => {
             {
                 props.data.map((question, index) => (
                     <input type="button"
-                        className={getStyle((props.current == index), question.question.isSubmitted, question.question.hasCorrectAnswer)}
+                        className={getStyle((props.current === index), question.question.isSubmitted, question.question.hasCorrectAnswer)}
                         value={index + 1} key={index} onClick={(event) => props.handleNavigationClick(event, index)} />
 
                 ))

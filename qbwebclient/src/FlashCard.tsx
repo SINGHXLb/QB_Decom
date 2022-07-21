@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import axios from 'axios'; 
 import Question from './Question';
 import StatusPanel from './StatusPanel';
@@ -8,7 +8,7 @@ import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import { isNullOrUndefined } from 'util';
+
 
 
 //https://localhost:7195/QB
@@ -47,12 +47,12 @@ const Display = () => {
             //Answer change to not need rective . UPdate only the object
             questions[currentQuestionNumber].question.answers.forEach(answer => {
                 //checkbox
-                if (event.target.type == "checkbox" && answer.id == event.target.id) {
+                if (event.target.type === "checkbox" && answer.id === event.target.id) {
                     answer.isChecked = event.target.checked;
                 }
                 //radio 
-                if (event.target.type == "radio") {
-                    if (answer.id == event.target.id && event.target.checked) {
+                if (event.target.type === "radio") {
+                    if (answer.id === event.target.id && event.target.checked) {
                         answer.isChecked = true;
                     }
                     else {
@@ -107,31 +107,31 @@ const Display = () => {
                         let hascorrectAnswers: boolean = true; 
                         
                         //set question to submitted
-                        questions.find(i => i.guid == currentGuid)!.question.isSubmitted = true;
+                        questions.find(i => i.guid === currentGuid)!.question.isSubmitted = true;
 
                         //set correct answers in state to do react magic
 
-                        questions.find(i => i.guid == currentGuid)!.question.answers.forEach(localanswer => {
-                            localanswer.isAnswer = (correctAnswers.filter(correctans => correctans.id == localanswer.id).length > 0);
+                        questions.find(i => i.guid === currentGuid)!.question.answers.forEach(localanswer => {
+                            localanswer.isAnswer = (correctAnswers.filter(correctans => correctans.id === localanswer.id).length > 0);
                         });
 
 
                         // if all and only correct answers are checked ,
                         //then set 'hasCorrectAnswer' property to true
-                        questions.find(i => i.guid == currentGuid)!.question.answers.forEach(localanswer => {
+                        questions.find(i => i.guid === currentGuid)!.question.answers.forEach(localanswer => {
                             if (localanswer.isChecked) {
                                 hascorrectAnswers = hascorrectAnswers &&
-                                    (correctAnswers.filter(correctans => correctans.id == localanswer.id).length > 0)
+                                    (correctAnswers.filter(correctans => correctans.id === localanswer.id).length > 0)
                                 
                             } else
                             {
                                 hascorrectAnswers = hascorrectAnswers &&
-                                    (correctAnswers.filter(correctans => correctans.id == localanswer.id).length == 0)
+                                    (correctAnswers.filter(correctans => correctans.id === localanswer.id).length === 0)
                                
                             }
 
                         });
-                        questions.find(i => i.guid == currentGuid)!.question.hasCorrectAnswer = hascorrectAnswers; 
+                        questions.find(i => i.guid === currentGuid)!.question.hasCorrectAnswer = hascorrectAnswers; 
                         return newState;
 
                     });
@@ -153,7 +153,7 @@ const Display = () => {
                  <Col>
 
                     {
-                        currentQuestionNumber == -1 &&
+                        currentQuestionNumber === -1 &&
                         <Button variant="secondary" onClick={() => getQuestions()}>   Load Questions  </Button>
                     }
 
@@ -188,7 +188,7 @@ const Display = () => {
                 <Col >
                     {
                         currentQuestionNumber >= 0 &&
-                        <Button  size="sm"  onClick={() => setCurrentQuestion(currentQuestionNumber - 1)} disabled={currentQuestionNumber == 0}>    {'Previous'}   </Button>
+                        <Button  size="sm"  onClick={() => setCurrentQuestion(currentQuestionNumber - 1)} disabled={currentQuestionNumber === 0}>    {'Previous'}   </Button>
                     }
                     &nbsp;
                     {

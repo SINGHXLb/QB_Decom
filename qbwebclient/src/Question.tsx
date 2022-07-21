@@ -1,5 +1,5 @@
 import React from 'react';
-import Button from 'react-bootstrap/Button';
+
 import Accordion from 'react-bootstrap/Accordion';
 
 
@@ -54,7 +54,7 @@ export const Question = (props: Questionset  ) => {
                             <Accordion.Item eventKey="0">
                                 <Accordion.Header>Display Image</Accordion.Header>
                                 <Accordion.Body>
-                                    <img src={props.data.question.questionImage} />
+                                    <img src={props.data.question.questionImage} alt="No Image" />
                                 </Accordion.Body>
                             </Accordion.Item>
                     </Accordion>
@@ -70,13 +70,13 @@ export const Question = (props: Questionset  ) => {
                             props.data.question.questionTypes.multiChoice ?
                                 <div>
                                     <input key={"txt" + ans.id} id={ans.id} type="checkbox" name={props.data.guid} checked={ans.isChecked} onChange={props.handleAnswerChange} /> {ans.answerText}
-                                    <img key={"img"+ans.id}  src={ans.answerImage} />
+                                    <img key={"img"+ans.id}  src={ans.answerImage} alt="No Image" />
                                 </div>
                      
                        :
                                 <div>
                                     <input key={"txt" + ans.id}  id={ans.id} type="radio" name={props.data.guid} checked={ans.isChecked} onChange={props.handleAnswerChange} /> {ans.answerText} 
-                                    <img key={"img" + ans.id}  src={ans.answerImage} />  
+                                    <img key={"img" + ans.id} src={ans.answerImage} alt="No Image" />  
                             </div> 
                         }
                      
