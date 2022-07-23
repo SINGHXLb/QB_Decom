@@ -16,22 +16,22 @@ import Col from 'react-bootstrap/Col';
 const Display = () => {
 
     const initialState = [{
-                    guid: "",
-                    questionText: "",
-                    questionImage: "",
-                    questionTypes: {
-                        singleChoice: false,
-                        multiChoice: false
-                    },
-                    answers: [{ "id":"", answerText: "", answerImage: "", isAnswer: false , isChecked:false }],
-                    userAnswers: "",
-                    weight: 0,
-                    difficulty: 0,
-                    isSubmitted: false,
-                    hasCorrectAnswer:false
+        guid: "",
+        questionText: "",
+        questionImage: "",
+        questionTypes: {
+            singleChoice: false,
+            multiChoice: false
+        },
+        answers: [{ "id": "", answerText: "", answerImage: "", isAnswer: false, isChecked: false }],
+        userAnswers: "",
+        weight: 0,
+        difficulty: 0,
+        isSubmitted: false,
+        hasCorrectAnswer: false
     }];
-                         
-    const handleNavigationClick = (event: React.MouseEvent<HTMLInputElement>, index: number) =>  {
+
+    const handleNavigationClick = (event: React.MouseEvent<HTMLInputElement>, index: number) => {
         setCurrentQuestion(index);
     }
 
@@ -58,25 +58,20 @@ const Display = () => {
                     }
                 }
                 console.log(answer.answerText + " is " + String(answer.isChecked));
-                
-            });  
+
+            });
             console.log("---------------------------------------------------");
             return newState;
 
         });
 
-
-
-     
-
-
     };
 
 
 
-    const [questions, setQuestions] = useState(initialState); 
-    const [currentQuestionNumber, setCurrentQuestion] = useState(-1); 
-    const url = 'https://localhost:7195/api/Questions/'; 
+    const [questions, setQuestions] = useState(initialState);
+    const [currentQuestionNumber, setCurrentQuestion] = useState(-1);
+    const url = 'https://localhost:7195/api/Questions/';
 
     const getQuestions = () => {
         axios.get(url)
@@ -86,80 +81,79 @@ const Display = () => {
 
             })
             .catch(error => console.error('error'))
-        
-       
-    } 
-
-    const submitAnswer = (currentGuid: string) => { 
-        const url = 'https://localhost:7195/api/CorrectAnswer/'; 
-        //server call to check the answer , client check no good as answer values
-        //shoud not be sent client side. 
-            axios.get(url + currentGuid )
-                .then((response) => {
-                    var correctAnswers: [{ "id": "", answerText: "" }]; 
-                    correctAnswers = response.data;
-                    console.log(correctAnswers);
-
-                    setQuestions((questions) => {
-                        var newState = Object.assign([], questions);
-                        let hascorrectAnswers: boolean = true; 
-                        
-                        //set question to submitted
-                        questions.find(i => i.guid === currentGuid)!.isSubmitted = true;
-
-                        //set correct answers in state to do react magic
-
-                        questions.find(i => i.guid === currentGuid)!.answers.forEach(localanswer => {
-                            localanswer.isAnswer = (correctAnswers.filter(correctans => correctans.id === localanswer.id).length > 0);
-                        });
 
 
-                        // if all and only correct answers are checked ,
-                        //then set 'hasCorrectAnswer' property to true
-                        questions.find(i => i.guid === currentGuid)!.answers.forEach(localanswer => {
-                            if (localanswer.isChecked) {
-                                hascorrectAnswers = hascorrectAnswers &&
-                                    (correctAnswers.filter(correctans => correctans.id === localanswer.id).length > 0)
-                                
-                            } else
-                            {
-                                hascorrectAnswers = hascorrectAnswers &&
-                                    (correctAnswers.filter(correctans => correctans.id === localanswer.id).length === 0)
-                               
-                            }
-
-                        });
-                        questions.find(i => i.guid === currentGuid)!.hasCorrectAnswer = hascorrectAnswers; 
-                        return newState;
-
-                    });
-
-                })
-                .catch(error => console.error('error submitting '))
-
-
-      
-       
-        
     }
 
-   
+    const submitAnswer = (currentGuid: string) => {
+        const url = 'https://localhost:7195/api/CorrectAnswer/';
+        //server call to check the answer , client check no good as answer values
+        //shoud not be sent client side. 
+        axios.get(url + currentGuid)
+            .then((response) => {
+                var correctAnswers: [{ "id": "", answerText: "" }];
+                correctAnswers = response.data;
+                console.log(correctAnswers);
+
+                setQuestions((questions) => {
+                    var newState = Object.assign([], questions);
+                    let hascorrectAnswers: boolean = true;
+
+                    //set question to submitted
+                    questions.find(i => i.guid === currentGuid)!.isSubmitted = true;
+
+                    //set correct answers in state to do react magic
+
+                    questions.find(i => i.guid === currentGuid)!.answers.forEach(localanswer => {
+                        localanswer.isAnswer = (correctAnswers.filter(correctans => correctans.id === localanswer.id).length > 0);
+                    });
+
+
+                    // if all and only correct answers are checked ,
+                    //then set 'hasCorrectAnswer' property to true
+                    questions.find(i => i.guid === currentGuid)!.answers.forEach(localanswer => {
+                        if (localanswer.isChecked) {
+                            hascorrectAnswers = hascorrectAnswers &&
+                                (correctAnswers.filter(correctans => correctans.id === localanswer.id).length > 0)
+
+                        } else {
+                            hascorrectAnswers = hascorrectAnswers &&
+                                (correctAnswers.filter(correctans => correctans.id === localanswer.id).length === 0)
+
+                        }
+
+                    });
+                    questions.find(i => i.guid === currentGuid)!.hasCorrectAnswer = hascorrectAnswers;
+                    return newState;
+
+                });
+
+            })
+            .catch(error => console.error('error submitting '))
+
+
+
+
+
+    }
+
+
 
     return (
         <Container>
             <Row>
-                 <Col>
+                <Col>
 
                     {
                         currentQuestionNumber === -1 &&
                         <Button variant="secondary" onClick={() => getQuestions()}>   Load Questions  </Button>
                     }
 
-               </Col>
+                </Col>
             </Row>
             <Row>
-              
-               
+
+
                 <Col lg="7" md="7">
                     {
                         currentQuestionNumber >= 0 &&
@@ -169,45 +163,40 @@ const Display = () => {
 
 
                 </Col>
-                
-                <Col lg="3" md="3"  className="d-none d-md-block" >
 
-                    <StatusPanel data={questions} current={currentQuestionNumber} handleNavigationClick={handleNavigationClick} /> 
+                <Col lg="3" md="3" className="d-none d-md-block" >
+
+                    <StatusPanel data={questions} current={currentQuestionNumber} handleNavigationClick={handleNavigationClick} />
 
                 </Col>
-                <Col> 
+                <Col>
                     {
                         currentQuestionNumber >= 0 &&
                         <Button disabled={questions[currentQuestionNumber].isSubmitted} size="sm" onClick={() => submitAnswer(questions[currentQuestionNumber].guid)}  >  {'Submit'}  </Button>
                     }
                 </Col>
             </Row>
-            <Row lg="6"  className="d-block d-md-none" >
+            <Row lg="6" className="d-block d-md-none" >
                 <Col >
                     {
                         currentQuestionNumber >= 0 &&
-                        <Button  size="sm"  onClick={() => setCurrentQuestion(currentQuestionNumber - 1)} disabled={currentQuestionNumber === 0}>    {'Previous'}   </Button>
+                        <Button size="sm" onClick={() => setCurrentQuestion(currentQuestionNumber - 1)} disabled={currentQuestionNumber === 0}>    {'Previous'}   </Button>
                     }
                     &nbsp;
                     {
                         currentQuestionNumber >= 0 &&
-                        <Button size="sm"  onClick={() => setCurrentQuestion(currentQuestionNumber + 1)} disabled={questions.length <= currentQuestionNumber + 1}  >  {'Next'}  </Button>
+                        <Button size="sm" onClick={() => setCurrentQuestion(currentQuestionNumber + 1)} disabled={questions.length <= currentQuestionNumber + 1}  >  {'Next'}  </Button>
 
                     }
-                  
 
-                </Col> 
+
+                </Col>
 
             </Row>
-           
 
-            </Container>
-    ); 
 
-    
-
-   
-
+        </Container>
+    );
 
 }
 

@@ -4,28 +4,27 @@ using QB2API.Model;
 
 namespace QB2API.Controllers
 {
-    [ApiController]
-
+    
     [Route("api")]
+    [ApiController]
     public class QBController : ControllerBase
     {
 
-          
 
         [HttpGet("Questions")]
         public List<QuestionModel> Get()
         {
             List<QuestionModel> result = new List<QuestionModel>();
             Model.QBDBContext c = new QBDBContext();
-         
-            string  result1 =  String.Join(",", c.QuestionStores.Select(x => x.Data)); ;
+
+            string result1 = String.Join(",", c.QuestionStores.Select(x => x.Data)); ;
             result1 = "[" + result1 + "]";
 
             result =
-                JsonConvert.DeserializeObject <List<QuestionModel>> (result1);
-            
+                JsonConvert.DeserializeObject<List<QuestionModel>>(result1);
+
             //remove answer 
-            foreach (QuestionModel quesiton in result) 
+            foreach (QuestionModel quesiton in result)
             {
                 foreach (Answer ans in quesiton.Answers)
                 { ans.IsAnswer = false; }
@@ -61,18 +60,13 @@ namespace QB2API.Controllers
         }
 
 
-
-
-
         [HttpGet("CorrectAnswer/{Guid}")]
         public List<Answer> CorrectAnswer(Guid Guid)
         {
 
             List<Answer> result = new List<Answer>();
-
             Model.QBDBContext c = new QBDBContext();
-
-            result =  JsonConvert.DeserializeObject<QuestionModel> (
+            result = JsonConvert.DeserializeObject<QuestionModel>(
                  c.QuestionStores.Where(x => x.Guid == Guid)!.FirstOrDefault()!.Data)
                 .Answers.Where(ans => ans.IsAnswer == true).ToList();
             return result;
