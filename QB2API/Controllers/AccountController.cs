@@ -8,32 +8,32 @@ namespace QB2API.Controllers
     [ApiController]
     public class AccountController : ControllerBase
     {
-
+        
         [HttpPost("login")]
         public UserState login([FromBody] UserState _state)
-        {
-
+        { 
+            
 
             Model.QBDBContext c = new QBDBContext();
             if (c.Users.Where(x => x.Email == _state.EmailID).Count() > 0)
             {
 
-                _state.Authkey = c.Users
-                       .Where(x => x.Email == _state.EmailID).Select(x => x.Guid)
-                       .ToString().GetHashCode().ToString();
+              _state.Authkey = c.Users
+                     .Where(x => x.Email == _state.EmailID).Select(x => x.Guid)
+                     .ToString().GetHashCode().ToString();
 
-
+               
 
             }
-
+            
             return _state;
         }
     }
 
-    public class UserState
+    public class UserState 
     {
-        public string? EmailID { get; set; }
-        public string? Authkey { get; set; }
+      public string? EmailID { get; set; }
+      public string? Authkey { get; set; }
 
     }
 }
