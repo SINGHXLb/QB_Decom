@@ -23,7 +23,7 @@
 
     public class QuestionModel
     {
-       
+        public Guid Guid { get; set; }
         public string Topic { get; set; }
         public List<string> Concept { get; set; }
         public List<string> tags { get; set; }
@@ -43,10 +43,10 @@
 
     }
 
-    public class QuestionAPIResponseModel 
+    public class QuestionSetAPIResponseModel 
        {
         public Guid Guid { get; set; }
-        public QuestionModel Question { get; set; }
+        public List<QuestionModel> Questions { get; set; }
     }
 
 

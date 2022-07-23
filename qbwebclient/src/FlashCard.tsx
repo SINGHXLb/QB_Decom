@@ -16,21 +16,19 @@ import Col from 'react-bootstrap/Col';
 const Display = () => {
 
     const initialState = [{
-        guid: "",
-        question: {
-            questionText: "",
-            questionImage: "",
-            questionTypes: {
-                singleChoice: false,
-                multiChoice: false
-            },
-            answers: [{ "id":"", answerText: "", answerImage: "", isAnswer: false , isChecked:false }],
-            userAnswers: "",
-            weight: 0,
-            difficulty: 0,
-            isSubmitted: false,
-            hasCorrectAnswer:false
-        }
+                    guid: "",
+                    questionText: "",
+                    questionImage: "",
+                    questionTypes: {
+                        singleChoice: false,
+                        multiChoice: false
+                    },
+                    answers: [{ "id":"", answerText: "", answerImage: "", isAnswer: false , isChecked:false }],
+                    userAnswers: "",
+                    weight: 0,
+                    difficulty: 0,
+                    isSubmitted: false,
+                    hasCorrectAnswer:false
     }];
                          
     const handleNavigationClick = (event: React.MouseEvent<HTMLInputElement>, index: number) =>  {
@@ -45,7 +43,7 @@ const Display = () => {
             var newState = Object.assign([], questions);
 
             //Answer change to not need rective . UPdate only the object
-            questions[currentQuestionNumber].question.answers.forEach(answer => {
+            questions[currentQuestionNumber].answers.forEach(answer => {
                 //checkbox
                 if (event.target.type === "checkbox" && answer.id === event.target.id) {
                     answer.isChecked = event.target.checked;
@@ -93,7 +91,7 @@ const Display = () => {
     } 
 
     const submitAnswer = (currentGuid: string) => { 
-        const url = 'https://localhost:7195/api/Questions/CorrectAnswer/'; 
+        const url = 'https://localhost:7195/api/CorrectAnswer/'; 
         //server call to check the answer , client check no good as answer values
         //shoud not be sent client side. 
             axios.get(url + currentGuid )
@@ -107,18 +105,18 @@ const Display = () => {
                         let hascorrectAnswers: boolean = true; 
                         
                         //set question to submitted
-                        questions.find(i => i.guid === currentGuid)!.question.isSubmitted = true;
+                        questions.find(i => i.guid === currentGuid)!.isSubmitted = true;
 
                         //set correct answers in state to do react magic
 
-                        questions.find(i => i.guid === currentGuid)!.question.answers.forEach(localanswer => {
+                        questions.find(i => i.guid === currentGuid)!.answers.forEach(localanswer => {
                             localanswer.isAnswer = (correctAnswers.filter(correctans => correctans.id === localanswer.id).length > 0);
                         });
 
 
                         // if all and only correct answers are checked ,
                         //then set 'hasCorrectAnswer' property to true
-                        questions.find(i => i.guid === currentGuid)!.question.answers.forEach(localanswer => {
+                        questions.find(i => i.guid === currentGuid)!.answers.forEach(localanswer => {
                             if (localanswer.isChecked) {
                                 hascorrectAnswers = hascorrectAnswers &&
                                     (correctAnswers.filter(correctans => correctans.id === localanswer.id).length > 0)
@@ -131,7 +129,7 @@ const Display = () => {
                             }
 
                         });
-                        questions.find(i => i.guid === currentGuid)!.question.hasCorrectAnswer = hascorrectAnswers; 
+                        questions.find(i => i.guid === currentGuid)!.hasCorrectAnswer = hascorrectAnswers; 
                         return newState;
 
                     });
@@ -165,7 +163,7 @@ const Display = () => {
                 <Col lg="7" md="7">
                     {
                         currentQuestionNumber >= 0 &&
-                        <Question key={questions[currentQuestionNumber].guid} data={questions[currentQuestionNumber]} handleAnswerChange={handleAnswerChange}  />
+                        <Question key={questions[currentQuestionNumber].guid} data={questions[currentQuestionNumber]} handleAnswerChange={handleAnswerChange} />
 
                     }
 
@@ -180,7 +178,7 @@ const Display = () => {
                 <Col> 
                     {
                         currentQuestionNumber >= 0 &&
-                        <Button disabled={questions[currentQuestionNumber].question.isSubmitted} size="sm" onClick={() => submitAnswer(questions[currentQuestionNumber].guid)}  >  {'Submit'}  </Button>
+                        <Button disabled={questions[currentQuestionNumber].isSubmitted} size="sm" onClick={() => submitAnswer(questions[currentQuestionNumber].guid)}  >  {'Submit'}  </Button>
                     }
                 </Col>
             </Row>

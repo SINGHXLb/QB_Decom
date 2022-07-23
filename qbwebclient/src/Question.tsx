@@ -9,8 +9,7 @@ import './Question.css';
 
 interface Questionset {
     data: {
-        guid: string
-        question: {
+            guid: string
             questionText: string;
             questionImage: string;
             questionTypes: { singleChoice: boolean, multiChoice: boolean };
@@ -18,8 +17,7 @@ interface Questionset {
             weight: number;
             difficulty: number;
             isSubmitted: boolean;
-            hasCorrectAnswer: boolean;
-        }
+            hasCorrectAnswer: boolean
        
     }, handleAnswerChange: React.ChangeEventHandler<HTMLInputElement> 
 
@@ -46,10 +44,10 @@ export const Question = (props: Questionset  ) => {
         <div>
             <div className="Question" >
 
-                {props.data.question.questionText}
+                {props.data.questionText}
              
                 {
-                    (!!props.data.question.questionImage) &&
+                    (!!props.data.questionImage) &&
                     <Accordion >
                             <Accordion.Item eventKey="0">
                                 <Accordion.Header>Display Image</Accordion.Header>
@@ -63,11 +61,11 @@ export const Question = (props: Questionset  ) => {
             </div>
 
             {
-                props.data.question.answers.map((ans, index) => (
-                    <div className={getStyle(props.data.question.isSubmitted, ans.isAnswer, ans.isChecked)}>
+                props.data.answers.map((ans, index) => (
+                    <div className={getStyle(props.data.isSubmitted, ans.isAnswer, ans.isChecked)}>
 
                         {
-                            props.data.question.questionTypes.multiChoice ?
+                            props.data.questionTypes.multiChoice ?
                                 <div>
                                     <input key={"txt" + ans.id} id={ans.id} type="checkbox" name={props.data.guid} checked={ans.isChecked} onChange={props.handleAnswerChange} /> {ans.answerText}
                                    {/* <img key={"img"+ans.id}  src={ans.answerImage}  />*/}
