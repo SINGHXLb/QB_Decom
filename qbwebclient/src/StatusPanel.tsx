@@ -7,8 +7,7 @@ import './StatusPanel.css';
 
 interface PanelModel {
     data: {
-        guid: string
-        question: {
+            guid: string
             questionText: string;
             questionImage: string;
             questionTypes: { singleChoice: boolean, multiChoice: boolean };
@@ -17,7 +16,7 @@ interface PanelModel {
             difficulty: number;
             isSubmitted: boolean;
             hasCorrectAnswer: boolean;
-        }
+       
     }[], current: number, handleNavigationClick: (event: React.MouseEvent<HTMLInputElement, MouseEvent>, index: number) => void 
 }
 
@@ -41,7 +40,7 @@ export const StatusPanel = (props: PanelModel ) => {
             {
                 props.data.map((question, index) => (
                     <input type="button"
-                        className={getStyle((props.current === index), question.question.isSubmitted, question.question.hasCorrectAnswer)}
+                        className={getStyle((props.current === index), question.isSubmitted, question.hasCorrectAnswer)}
                         value={index + 1} key={index} onClick={(event) => props.handleNavigationClick(event, index)} />
 
                 ))
