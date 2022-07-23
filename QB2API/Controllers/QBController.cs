@@ -4,13 +4,12 @@ using QB2API.Model;
 
 namespace QB2API.Controllers
 {
-    [ApiController]
-
+    
     [Route("api")]
+    [ApiController]
     public class QBController : ControllerBase
     {
 
-          
 
         [HttpGet("Questions")]
         public List<QuestionModel> Get()
@@ -59,9 +58,6 @@ namespace QB2API.Controllers
             }
             return result;
         }
-
-
-
 
 
         [HttpGet("CorrectAnswer/{Guid}")]

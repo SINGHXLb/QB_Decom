@@ -1,0 +1,25 @@
+
+
+div {
+    margin:5px;
+}
+
+h1, h2, h3, h4, h5, h6, label, span {
+    font-weight: 500;
+    font-family: 'Arial', sans-serif;
+}
+
+ 
+.auth-wrapper {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    text-align: left;
+}
+ 
+.auth-wrapper .form-control:focus {
+    border-color: #167bff;
+    box-shadow: none;
+}
+
+ 
