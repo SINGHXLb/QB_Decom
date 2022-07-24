@@ -1,4 +1,8 @@
+using QB2API.Helper;
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddJWTToken(builder.Configuration);
 
 // Add services to the container.
 

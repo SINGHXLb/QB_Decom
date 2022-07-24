@@ -16,7 +16,7 @@ import axios from 'axios';
 function App() { 
 
     const appstateO = {
-        Authkey:"",
+        token:"",
         userID: "",
         emailID:"",
         sessionID: "",
@@ -35,17 +35,21 @@ function App() {
 
         axios.post(urlP, applicationSession)
             .then((response) => {
-                var userstate: { authkey: string, emailID: string };
+                var loginResponse: {
+                    token: string,
+                    userName: string, validaty: string,
+                    id: string, emailId: string
+                };
 
-                var Authkey: string;  
-                userstate = response.data; 
-                Authkey = userstate.authkey; 
-                console.log(Authkey);
+                var token: string;  
+                loginResponse = response.data; 
+                token = loginResponse.token; 
+                console.log(loginResponse);
                 setApplicationSession((applicationSession) => {
                     var newState = Object.assign({}, applicationSession);
-                    if (Authkey !== "") {
+                    if (token !== "") {
                         newState.isAuthenticted = true;
-                        newState.Authkey = Authkey;
+                        newState.token = token;
                     }
                     return newState;
                 });
@@ -53,7 +57,6 @@ function App() {
             })
             .catch(error => console.error('error login in'))  
 
-        console.log(applicationSession);
        
     }
 
