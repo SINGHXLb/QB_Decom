@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using QB2API.Helper;
 using QB2API.Model;
+using QB2API.Model.Security;
 
 namespace QB2API.Controllers
 {
@@ -8,25 +10,45 @@ namespace QB2API.Controllers
     [ApiController]
     public class AccountController : ControllerBase
     {
-        
+        private readonly JwtSettings jwtSettings;
+        public AccountController(JwtSettings jwtSettings)
+        {
+            this.jwtSettings = jwtSettings;
+        }
+
+
         [HttpPost("login")]
-        public UserState login([FromBody] UserState _state)
-        { 
-            
+        public IActionResult login([FromBody] UserState _state)
+        {
 
-            Model.QBDBContext c = new QBDBContext();
-            if (c.Users.Where(x => x.Email == _state.EmailID).Count() > 0)
+        Model.QBDBContext c = new QBDBContext();
+
+            try
             {
-
-              _state.Authkey = c.Users
-                     .Where(x => x.Email == _state.EmailID).Select(x => x.Guid)
-                     .ToString().GetHashCode().ToString();
-
-               
-
+                var Token = new UserTokens();
+                var Valid = (c.Users.Where(x => x.Email == _state.EmailID).Count() > 0);
+                if (Valid)
+                {
+                    var user = c.Users.Where(x => x.Email == _state.EmailID).First();
+                    Token = JwtHelpers.GenTokenkey(new UserTokens()
+                    {
+                        EmailId = user.Email,
+                        GuidId = Guid.NewGuid(),
+                        UserName = user.FirstName,
+                        Id = user.Guid,
+                    }, jwtSettings);
+                }
+                else
+                {
+                    return BadRequest();
+                }
+                return Ok(Token);
             }
-            
-            return _state;
+            catch (Exception ex)
+            {
+                throw;
+            }
+          
         }
     }
 
