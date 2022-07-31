@@ -13,7 +13,8 @@ interface Questionset {
             questionText: string;
             questionImage: string;
             questionTypes: { singleChoice: boolean, multiChoice: boolean };
-            answers: {id:string, answerText: string, answerImage: string, isAnswer: boolean, isChecked: boolean }[];
+            answers: {id:string, answerText: string, answerImage: string, 
+                isAnswer: boolean, isChecked: boolean }[];
             weight: number;
             difficulty: number;
             isSubmitted: boolean;
@@ -24,7 +25,8 @@ interface Questionset {
 }
 
 
-const getStyle = ( isSubmitted: boolean, isAnswer: boolean , isChecked:boolean): string => {
+const getStyle
+    = (isSubmitted: boolean, isAnswer: boolean, isChecked: boolean): string => {
 
     var style = [""];
     if (isSubmitted && isAnswer && isChecked ) { style.push("correctanswer") }
@@ -32,7 +34,7 @@ const getStyle = ( isSubmitted: boolean, isAnswer: boolean , isChecked:boolean):
 
     if (isSubmitted && isAnswer && !isChecked) { style.push("wronganswer") }
     if (isSubmitted && !isAnswer && !isChecked) { style.push("correctanswer") }
-
+    
     if (!isSubmitted) { style.push("Answer") }
     
     return style.join(" ");
@@ -67,13 +69,21 @@ export const Question = (props: Questionset  ) => {
                         {
                             props.data.questionTypes.multiChoice ?
                                 <div>
-                                    <input key={"txt" + ans.id} id={ans.id} type="checkbox" name={props.data.guid} checked={ans.isChecked} onChange={props.handleAnswerChange} /> {ans.answerText}
+                                    <input key={"txt" + ans.id} id={ans.id} type="checkbox"
+                                        disabled={props.data.isSubmitted}
+                                        name={props.data.guid} 
+                                        checked={ans.isChecked}
+                                        onChange={props.handleAnswerChange} /> {ans.answerText}
                                    {/* <img key={"img"+ans.id}  src={ans.answerImage}  />*/}
                                 </div>
                      
                        :
                                 <div>
-                                    <input key={"txt" + ans.id}  id={ans.id} type="radio" name={props.data.guid} checked={ans.isChecked} onChange={props.handleAnswerChange} /> {ans.answerText} 
+                                    <input key={"txt" + ans.id} id={ans.id} type="radio"
+                                        name={props.data.guid}
+                                        checked={ans.isChecked}
+                                        disabled={props.data.isSubmitted}
+                                        onChange={props.handleAnswerChange} /> {ans.answerText} 
                                     {/*<img key={"img" + ans.id} src={ans.answerImage}  />  */}
                             </div> 
                         }

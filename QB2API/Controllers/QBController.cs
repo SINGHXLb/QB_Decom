@@ -26,6 +26,7 @@ namespace QB2API.Controllers
             //remove answer 
             foreach (QuestionModel quesiton in result)
             {
+                quesiton.Explaination = "";
                 foreach (Answer ans in quesiton.Answers)
                 { ans.IsAnswer = false; }
             }
@@ -60,17 +61,25 @@ namespace QB2API.Controllers
         }
 
 
-        [HttpGet("CorrectAnswer/{Guid}")]
-        public List<Answer> CorrectAnswer(Guid Guid)
+        [HttpGet("AnswersExplaination/{Guid}")]
+        public AnswersExplain AnswersExplaination(Guid Guid)
         {
-
-            List<Answer> result = new List<Answer>();
+            AnswersExplain result = new AnswersExplain();
+            List<Answer> answers = new List<Answer>();
             Model.QBDBContext c = new QBDBContext();
-            result = JsonConvert.DeserializeObject<QuestionModel>(
+            answers = JsonConvert.DeserializeObject<QuestionModel>(
                  c.QuestionStores.Where(x => x.Guid == Guid)!.FirstOrDefault()!.Data)
                 .Answers.Where(ans => ans.IsAnswer == true).ToList();
+            result.Answers = answers;
+            result.Explaination = JsonConvert.DeserializeObject<QuestionModel>(
+                 c.QuestionStores.Where(x => x.Guid == Guid)!.FirstOrDefault()!.Data).Explaination;
+            //I dont like it but i have no 
+
             return result;
         }
+
+       
+
 
     }
 }

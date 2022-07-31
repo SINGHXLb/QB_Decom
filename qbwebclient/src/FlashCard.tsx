@@ -28,7 +28,8 @@ const Display = () => {
         weight: 0,
         difficulty: 0,
         isSubmitted: false,
-        hasCorrectAnswer: false
+        hasCorrectAnswer: false,
+        explanation:""
     }];
 
     const handleNavigationClick = (event: React.MouseEvent<HTMLInputElement>, index: number) => {
@@ -86,12 +87,27 @@ const Display = () => {
     }
 
     const submitAnswer = (currentGuid: string) => {
-        const url = 'https://localhost:7195/api/CorrectAnswer/';
+        const url = 'https://localhost:7195/api/AnswersExplaination/';
         //server call to check the answer , client check no good as answer values
         //shoud not be sent client side. 
         axios.get(url + currentGuid)
             .then((response) => {
-                var correctAnswers: [{ "id": "", answerText: "" }];
+                var correctAnswers:
+
+                    {
+                        "answers": [
+                            {
+                                "id": "",
+                                "answerText": "",
+                                "answerImage": "",
+                                "isAnswer": true,
+                                "isChecked": true,
+                                "explaination": ""
+                            }
+                        ],
+                        "explaination": ""
+                    };
+
                 correctAnswers = response.data;
                 console.log(correctAnswers);
 
@@ -105,20 +121,22 @@ const Display = () => {
                     //set correct answers in state to do react magic
 
                     questions.find(i => i.guid === currentGuid)!.answers.forEach(localanswer => {
-                        localanswer.isAnswer = (correctAnswers.filter(correctans => correctans.id === localanswer.id).length > 0);
+                        localanswer.isAnswer = (correctAnswers.answers.filter(correctans => correctans.id === localanswer.id).length > 0);
                     });
 
+                    //set explanation of submitted questions 
+                    questions.find(i => i.guid === currentGuid)!.explanation = correctAnswers.explaination;
 
                     // if all and only correct answers are checked ,
                     //then set 'hasCorrectAnswer' property to true
                     questions.find(i => i.guid === currentGuid)!.answers.forEach(localanswer => {
                         if (localanswer.isChecked) {
                             hascorrectAnswers = hascorrectAnswers &&
-                                (correctAnswers.filter(correctans => correctans.id === localanswer.id).length > 0)
+                                (correctAnswers.answers.filter(correctans => correctans.id === localanswer.id).length > 0)
 
                         } else {
                             hascorrectAnswers = hascorrectAnswers &&
-                                (correctAnswers.filter(correctans => correctans.id === localanswer.id).length === 0)
+                                (correctAnswers.answers.filter(correctans => correctans.id === localanswer.id).length === 0)
 
                         }
 
@@ -140,6 +158,7 @@ const Display = () => {
 
 
     return (
+
         <Container>
             <Row>
                 <Col>
@@ -153,14 +172,28 @@ const Display = () => {
             </Row>
             <Row>
 
-
                 <Col lg="7" md="7">
+                    <div className="front">
                     {
                         currentQuestionNumber >= 0 &&
                         <Question key={questions[currentQuestionNumber].guid} data={questions[currentQuestionNumber]} handleAnswerChange={handleAnswerChange} />
 
                     }
+                    </div>
 
+                    <div className="back">
+                        {
+                            currentQuestionNumber >= 0 &&
+                            questions[currentQuestionNumber].explanation
+                        }
+                    </div>
+
+                    {
+                        currentQuestionNumber >= 0 &&
+                        <Button disabled={!questions[currentQuestionNumber].isSubmitted} size="sm" onClick={() => submitAnswer(questions[currentQuestionNumber].guid)}  >Flip </Button>
+                    }
+
+                  
 
                 </Col>
 
@@ -174,6 +207,8 @@ const Display = () => {
                         currentQuestionNumber >= 0 &&
                         <Button disabled={questions[currentQuestionNumber].isSubmitted} size="sm" onClick={() => submitAnswer(questions[currentQuestionNumber].guid)}  >  {'Submit'}  </Button>
                     }
+                  
+
                 </Col>
             </Row>
             <Row lg="6" className="d-block d-md-none" >
@@ -189,13 +224,13 @@ const Display = () => {
 
                     }
 
-
+                   
                 </Col>
 
             </Row>
-
-
         </Container>
+
+
     );
 
 }

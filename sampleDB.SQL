@@ -3,11 +3,11 @@ GO
 
 --delete from users where GUid not in (select  userGuid from [UserQuestionSet]) 
 
-
+--select * from users 
 INSERT INTO [dbo].[Users] VALUES   (newID(),'p@gmail.com', 'Purvi', null,0,'2008-06-08','script','2022-06-01')
 INSERT INTO [dbo].[Users] VALUES   (newID(),'q@gmail.com', 'Pushpe', null,0,'2008-06-08','script','2022-06-01')
 INSERT INTO [dbo].[Users] VALUES   (newID(),'r@gmail.com', 'rekha', null,0,'2008-06-08','script','2022-06-01')
-
+update [dbo].[Users]  set LastName = 'Pa'
 GO
 
 USE [DB1]
