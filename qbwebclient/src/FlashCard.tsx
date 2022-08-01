@@ -8,8 +8,7 @@ import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-
-
+import './FlashCard.css';
 
 //https://localhost:7195/QB
 
@@ -34,6 +33,17 @@ const Display = () => {
 
     const handleNavigationClick = (event: React.MouseEvent<HTMLInputElement>, index: number) => {
         setCurrentQuestion(index);
+    }
+
+    const flipCard = (event: React.MouseEvent<HTMLDivElement>, isfront:boolean ,canflip:boolean) => {
+       
+        if (canflip)
+        {
+
+            event.currentTarget.classList.toggle('flipping'); 
+
+        }
+
     }
 
     const handleAnswerChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -173,6 +183,7 @@ const Display = () => {
             <Row>
 
                 <Col lg="7" md="7">
+                    <div className="card" onClick={(event) => flipCard(event, true, questions[currentQuestionNumber].isSubmitted)}>
                     <div className="front">
                     {
                         currentQuestionNumber >= 0 &&
@@ -180,21 +191,13 @@ const Display = () => {
 
                     }
                     </div>
-
-                    <div className="back">
+                    <div className="back"> 
                         {
                             currentQuestionNumber >= 0 &&
                             questions[currentQuestionNumber].explanation
                         }
-                    </div>
-
-                    {
-                        currentQuestionNumber >= 0 &&
-                        <Button disabled={!questions[currentQuestionNumber].isSubmitted} size="sm" onClick={() => submitAnswer(questions[currentQuestionNumber].guid)}  >Flip </Button>
-                    }
-
-                  
-
+                        </div>
+                     </div>
                 </Col>
 
                 <Col lg="3" md="3" className="d-none d-md-block" >
@@ -211,6 +214,7 @@ const Display = () => {
 
                 </Col>
             </Row>
+
             <Row lg="6" className="d-block d-md-none" >
                 <Col >
                     {
