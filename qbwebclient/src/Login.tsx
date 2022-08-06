@@ -1,6 +1,5 @@
 import './Login.css';
-import { useState } from "react";
-import FlashCard from './FlashCard';
+
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';

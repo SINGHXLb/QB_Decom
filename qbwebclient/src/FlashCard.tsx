@@ -160,9 +160,6 @@ const Display = () => {
             .catch(error => console.error('error submitting '))
 
 
-
-
-
     }
 
 

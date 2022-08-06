@@ -1,9 +1,6 @@
 import React from 'react';
 
 import Accordion from 'react-bootstrap/Accordion';
-
-
-
 import './Question.css';
 
 
@@ -14,7 +11,7 @@ interface Questionset {
             questionImage: string;
             questionTypes: { singleChoice: boolean, multiChoice: boolean };
             answers: {id:string, answerText: string, answerImage: string, 
-                isAnswer: boolean, isChecked: boolean }[];
+             isAnswer: boolean, isChecked: boolean }[];
             weight: number;
             difficulty: number;
             isSubmitted: boolean;

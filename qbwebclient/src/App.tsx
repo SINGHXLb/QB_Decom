@@ -4,14 +4,12 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
-
 
 import './App.css';
 import FlashCard from './FlashCard';
 import Login from './Login';
 import axios from 'axios'; 
+import Appmenu from './Appmenu';
 
 function App() { 
 
@@ -39,7 +37,6 @@ function App() {
             return initialValue;
         }
     }
-
 
     const [applicationSession, setApplicationSession] = useState(() =>
         getLocalStorage("applicationSession", appstateO)); 
@@ -79,60 +76,31 @@ function App() {
         
 
     }
-    const handleNavigation = (key: string | null) => {
-
-        if (key === 'Logout') {
-            setLocalStorage("applicationSession", ""); //session
-            setApplicationSession(""); //React variable  
-        }
-        else
-        {
-            console.log('no action , key = ' + key);
-
-        }
-       
-    };
-
+    const handleLogout = () =>
+    {
+           setLocalStorage("applicationSession", ""); //session
+          setApplicationSession(""); //React variable  
+    }
     const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setApplicationSession((applicationSession:any) => {
             var newState = Object.assign({}, applicationSession);
             newState.emailId = event.target.value.toString();
             return newState;
-        });
-      
-    }
+        }); 
+    } 
 
-    
-
-
-    return (
-        <div className = "App">
-        <Navbar bg="dark" variant="dark" className="Navbar">
-        <Container>
-          <Navbar.Brand href="#home">Crazy Monk</Navbar.Brand>
-                    <Nav className="me-auto" onSelect={(selectedKey) => handleNavigation(selectedKey)} >
-                        {applicationSession.isAuthenticated  && <Nav.Link href="/">Home</Nav.Link>}
-                        {applicationSession.isAdmin && <Nav.Link href="/Admin">Admin</Nav.Link>}
-
-                        {applicationSession.isAuthenticated && <Nav.Link eventKey="Logout" >Logout</Nav.Link>}
-
-          </Nav>
-        </Container>
-
-      </Navbar>
-
+    return ( 
+        <div className="App">
+            <Appmenu data={applicationSession} handleMenuLogout={handleLogout} />
             <Container>
-
-            
                      <Row>
                          <Col>
                             {
                             
                             applicationSession.isAuthenticated &&
-                               <FlashCard /> 
-                             }
-
-                        {
+                            <FlashCard />  
+                             } 
+                            {
 
                             !applicationSession.isAuthenticated &&
                             <Login handleLogin={handleLogin} handleEmailChange={handleEmailChange} />
