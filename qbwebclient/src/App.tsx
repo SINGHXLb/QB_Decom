@@ -17,20 +17,38 @@ function App() {
 
     const appstateO = {
         token:"",
-        userID: "",
-        emailID:"",
-        sessionID: "",
+        userId: "",
+        emailId:"",
+        sessionId: "",
         loginTime: "", 
-        isAuthenticted: false,
+        isAuthenticated: false,
         isAdmin: false
     };
-    const [applicationSession, setApplicationSession] = useState(appstateO); 
+
+    const setLocalStorage = (key: string, value: any) => {
+        window.localStorage.setItem(key, JSON.stringify(value));
+    }
+
+    const getLocalStorage = (key: string, initialValue: any) => {
+        try {
+            const value = window.localStorage.getItem(key);
+            return value ? JSON.parse(value) : initialValue;
+        } catch (e) {
+       
+            // if error, return initial value
+            return initialValue;
+        }
+    }
+
+
+    const [applicationSession, setApplicationSession] = useState(() =>
+        getLocalStorage("applicationSession", appstateO)); 
 
     const handleLogin = (event: React.MouseEvent<HTMLButtonElement>) => {
 
         const urlP = 'https://localhost:7195/api/login';
 
-        const data = '{"useremail": "' +applicationSession.emailID +'"}'
+        //const data = '{"useremail": "' +applicationSession.emailID +'"}'
 
 
         axios.post(urlP, applicationSession)
@@ -44,30 +62,47 @@ function App() {
                 var token: string;  
                 loginResponse = response.data; 
                 token = loginResponse.token; 
-                console.log(loginResponse);
-                setApplicationSession((applicationSession) => {
+              
+                setApplicationSession((applicationSession:any) => {
                     var newState = Object.assign({}, applicationSession);
                     if (token !== "") {
-                        newState.isAuthenticted = true;
+                        newState.isAuthenticated = true;
                         newState.token = token;
                     }
+                    setLocalStorage("applicationSession", newState);
                     return newState;
-                });
+                }); 
 
             })
             .catch(error => console.error('error login in'))  
 
-       
+        
+
     }
+    const handleNavigation = (key: string | null) => {
+
+        if (key === 'Logout') {
+            setLocalStorage("applicationSession", ""); //session
+            setApplicationSession(""); //React variable  
+        }
+        else
+        {
+            console.log('no action , key = ' + key);
+
+        }
+       
+    };
 
     const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setApplicationSession((applicationSession) => {
+        setApplicationSession((applicationSession:any) => {
             var newState = Object.assign({}, applicationSession);
-            newState.emailID = event.target.value.toString();
+            newState.emailId = event.target.value.toString();
             return newState;
         });
       
     }
+
+    
 
 
     return (
@@ -75,9 +110,11 @@ function App() {
         <Navbar bg="dark" variant="dark" className="Navbar">
         <Container>
           <Navbar.Brand href="#home">Crazy Monk</Navbar.Brand>
-                    <Nav className="me-auto">
-                        {applicationSession.isAuthenticted  && <Nav.Link href="/">Home</Nav.Link>}
-                        {applicationSession.isAdmin &&  <Nav.Link href="/Admin">Admin</Nav.Link>}
+                    <Nav className="me-auto" onSelect={(selectedKey) => handleNavigation(selectedKey)} >
+                        {applicationSession.isAuthenticated  && <Nav.Link href="/">Home</Nav.Link>}
+                        {applicationSession.isAdmin && <Nav.Link href="/Admin">Admin</Nav.Link>}
+
+                        {applicationSession.isAuthenticated && <Nav.Link eventKey="Logout" >Logout</Nav.Link>}
 
           </Nav>
         </Container>
@@ -91,13 +128,13 @@ function App() {
                          <Col>
                             {
                             
-                                applicationSession.isAuthenticted &&
+                            applicationSession.isAuthenticated &&
                                <FlashCard /> 
                              }
 
                         {
 
-                            !applicationSession.isAuthenticted &&
+                            !applicationSession.isAuthenticated &&
                             <Login handleLogin={handleLogin} handleEmailChange={handleEmailChange} />
 
                              }  
