@@ -11,7 +11,8 @@ interface MenuModel {
 }
 
 
-function Appmenu(props: MenuModel ) {
+function Appmenu(props: MenuModel) {
+
     const handleNavigation = (key: string | null) => { 
         if (key === 'Logout') {
             props.handleMenuLogout(); 
@@ -26,7 +27,8 @@ function Appmenu(props: MenuModel ) {
             <Navbar.Brand href="#home">Crazy Monk</Navbar.Brand>
             <Nav className="me-auto" onSelect={(selectedKey) => handleNavigation(selectedKey)} >
                 {props.data.isAuthenticated && <Nav.Link href="/">Home</Nav.Link>}
-                {props.data.isAdmin && <Nav.Link href="/Admin">Admin</Nav.Link>}
+                {props.data.isAuthenticated && <Nav.Link href="/student">Student</Nav.Link>}
+                {props.data.isAdmin && <Nav.Link href="/admin">Admin</Nav.Link>}
                 {props.data.isAuthenticated && <Nav.Link eventKey="Logout" >Logout</Nav.Link>}
             </Nav>
         </Navbar>

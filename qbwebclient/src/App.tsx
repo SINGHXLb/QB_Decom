@@ -1,15 +1,15 @@
 import React from 'react'; 
 import { useState } from "react";
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
+
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 
 import './App.css';
-import FlashCard from './FlashCard';
 import Login from './Login';
 import axios from 'axios'; 
-import Appmenu from './Appmenu';
+import Layout from './Layout';
+import Student from './Student';
+import Admin from './Admin';
 
 function App() { 
 
@@ -25,8 +25,7 @@ function App() {
 
     const setLocalStorage = (key: string, value: any) => {
         window.localStorage.setItem(key, JSON.stringify(value));
-    }
-
+    } 
     const getLocalStorage = (key: string, initialValue: any) => {
         try {
             const value = window.localStorage.getItem(key);
@@ -36,11 +35,9 @@ function App() {
             // if error, return initial value
             return initialValue;
         }
-    }
-
+    } 
     const [applicationSession, setApplicationSession] = useState(() =>
-        getLocalStorage("applicationSession", appstateO)); 
-
+        getLocalStorage("applicationSession", appstateO));  
     const handleLogin = (event: React.MouseEvent<HTMLButtonElement>) => {
 
         const urlP = 'https://localhost:7195/api/login';
@@ -88,30 +85,30 @@ function App() {
             return newState;
         }); 
     } 
+    if (! applicationSession.isAuthenticated)
+    {
+        return <Login handleLogin={handleLogin} handleEmailChange={handleEmailChange} />;
+
+    }
 
     return ( 
-        <div className="App">
-            <Appmenu data={applicationSession} handleMenuLogout={handleLogout} />
-            <Container>
-                     <Row>
-                         <Col>
-                            {
-                            
-                            applicationSession.isAuthenticated &&
-                            <FlashCard />  
-                             } 
-                            {
-
-                            !applicationSession.isAuthenticated &&
-                            <Login handleLogin={handleLogin} handleEmailChange={handleEmailChange} />
-
-                             }  
-                           
-                        </Col>
-                   </Row>
-               
-            </Container>
-        </div>
+     <>
+           
+            {
+                applicationSession.isAuthenticated &&
+                <BrowserRouter>
+                    <Routes>
+                            <Route path="/" element={<Layout data={applicationSession} handleMenuLogout={handleLogout} />}>
+                            <Route path="/student" element={<Student />}></Route>
+                            <Route path="/admin" element={<Admin/>}></Route>
+                            {/*<Route path="/faculty/:id" element={<FacultyDetial />}></Route>*/}
+                            {/*<Route path="/faculty/add" element={<FacultyAdd />}></Route>*/}
+                            {/*<Route path="/faculty/edit/:id" element={<FacultyAdd />}></Route>*/}
+                        </Route>
+                    </Routes>
+                </BrowserRouter>
+            }
+   </>
   );
 }
 
