@@ -33,9 +33,9 @@ namespace QB2API.Controllers
                     Token = JwtHelpers.GenTokenkey(new UserTokens()
                     {
                         EmailId = user.Email,
-                        GuidId = Guid.NewGuid(),
+                        Guid = user.Guid,
                         UserName = user.FirstName,
-                        Id = user.Guid,
+                        Id = user.Email,
                     }, jwtSettings);
                 }
                 else

@@ -1,10 +1,26 @@
-import FlashCard from './FlashCard'
+import QuestionSet from './Student/QuestionSet'
+import React from 'react'; 
 
-function StudentUI() {
+ 
+interface LoginInfo
+{
+    data: {
+        token: string,
+        userId: string,
+        guid: string,
+        emailId: string,
+        sessionId: string,
+        loginTime: string,
+        isAuthenticated: boolean,
+        isAdmin: boolean
+    }
+}
+
+function StudentUI(props: LoginInfo) {
   return (
-         <>
-          <FlashCard />
-          </>
+      < >
+          <QuestionSet data={props.data} />  
+     </>
                        
   );
 }

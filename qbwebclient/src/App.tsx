@@ -14,11 +14,12 @@ import Admin from './Admin';
 function App() { 
 
     const appstateO = {
-        token:"",
-        userId: "",
-        emailId:"",
-        sessionId: "",
-        loginTime: "", 
+        token:"x",
+        userId: "x",
+        guid:"x",
+        emailId:"x",
+        sessionId: "x",
+        loginTime: "x", 
         isAuthenticated: false,
         isAdmin: false
     };
@@ -38,6 +39,8 @@ function App() {
     } 
     const [applicationSession, setApplicationSession] = useState(() =>
         getLocalStorage("applicationSession", appstateO));  
+
+
     const handleLogin = (event: React.MouseEvent<HTMLButtonElement>) => {
 
         const urlP = 'https://localhost:7195/api/login';
@@ -47,30 +50,35 @@ function App() {
 
         axios.post(urlP, applicationSession)
             .then((response) => {
+
                 var loginResponse: {
                     token: string,
-                    userName: string, validaty: string,
-                    id: string, emailId: string
-                };
+                    userName: string,
+                    validaty: string, 
+                    id: string,
+                    emailId: string,
+                    guid: string
+                }; 
 
                 var token: string;  
+                var userGuid :string; 
                 loginResponse = response.data; 
-                token = loginResponse.token; 
+                token = loginResponse.token;
+                userGuid = loginResponse.guid;
               
                 setApplicationSession((applicationSession:any) => {
                     var newState = Object.assign({}, applicationSession);
                     if (token !== "") {
                         newState.isAuthenticated = true;
                         newState.token = token;
+                        newState.guid = userGuid; 
                     }
                     setLocalStorage("applicationSession", newState);
                     return newState;
                 }); 
 
             })
-            .catch(error => console.error('error login in'))  
-
-        
+            .catch(error => console.error('error login in'))   
 
     }
     const handleLogout = () =>
@@ -92,14 +100,14 @@ function App() {
     }
 
     return ( 
-     <>
+        <>
            
             {
                 applicationSession.isAuthenticated &&
                 <BrowserRouter>
                     <Routes>
                             <Route path="/" element={<Layout data={applicationSession} handleMenuLogout={handleLogout} />}>
-                            <Route path="/student" element={<Student />}></Route>
+                                <Route path="/student" element={<Student data={applicationSession} />}></Route>
                             <Route path="/admin" element={<Admin/>}></Route>
                             {/*<Route path="/faculty/:id" element={<FacultyDetial />}></Route>*/}
                             {/*<Route path="/faculty/add" element={<FacultyAdd />}></Route>*/}
@@ -108,6 +116,7 @@ function App() {
                     </Routes>
                 </BrowserRouter>
             }
+            
    </>
   );
 }

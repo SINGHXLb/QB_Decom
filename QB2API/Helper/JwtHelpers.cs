@@ -49,7 +49,7 @@
                     UserToken.Id = model.Id;
                     UserToken.EmailId = model.EmailId;
                     UserToken.RefreshToken = model.RefreshToken;
-                    UserToken.GuidId = Id;
+                    UserToken.Guid = model.Guid;
                     return UserToken;
                 }
                 catch (Exception)

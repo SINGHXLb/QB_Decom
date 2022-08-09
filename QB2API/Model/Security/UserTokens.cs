@@ -23,7 +23,7 @@
             get;
             set;
         }
-        public Guid Id
+        public string  Id
         {
             get;
             set;
@@ -33,7 +33,7 @@
             get;
             set;
         }
-        public Guid GuidId
+        public Guid Guid
         {
             get;
             set;

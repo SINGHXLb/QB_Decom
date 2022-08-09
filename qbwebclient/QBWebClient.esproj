@@ -15,6 +15,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include=".vs\QBWebClient\v17\" />
+    <Folder Include="src\Student\" />
   </ItemGroup>
   <!-- This target is copied from the ASP.NET SPA template in order to ensure node_modules are in place. -->
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

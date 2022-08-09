@@ -60,6 +60,33 @@ namespace QB2API.Controllers
             return result;
         }
 
+       
+
+        [HttpGet("user/{userGUID}/QuestionSets")]
+        public List<QuestionSet> UserQuestionSets(Guid userGUID)
+        {
+            Model.QBDBContext c = new QBDBContext();
+
+            List<Guid> QuestionSetGuids  = c.UserQuestionSets .
+                Where(x=>x.UserGuid == userGUID)
+                .Select(x => x.QuestionSetGuid).ToList();
+
+            List<QuestionSet> questionSets = new List<QuestionSet>();
+            foreach (Guid QuestionSetGuid in QuestionSetGuids)
+            {
+                QuestionSet questionSet = new QuestionSet();
+                questionSet.Guid = QuestionSetGuid;
+                questionSet.QuestionSetName = 
+                c.QuestionSets
+                    .Where(x => x.Guid == QuestionSetGuid)
+                    .Select(x => x.QuestionSetName).First();
+
+                questionSets.Add(questionSet);
+            }
+            return questionSets; 
+        }
+
+
 
         [HttpGet("AnswersExplaination/{Guid}")]
         public AnswersExplain AnswersExplaination(Guid Guid)
