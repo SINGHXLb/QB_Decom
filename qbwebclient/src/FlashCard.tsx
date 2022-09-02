@@ -12,7 +12,9 @@ import './FlashCard.css';
 
 //https://localhost:7195/QB
 
-const Display = () => {
+const FlashCard = (props: {questionsetId:string}) => {
+
+  
 
     const initialState = [{
         guid: "",
@@ -78,7 +80,7 @@ const Display = () => {
 
     };
 
-
+    
 
     const [questions, setQuestions] = useState(initialState);
     const [currentQuestionNumber, setCurrentQuestion] = useState(-1);
@@ -95,7 +97,7 @@ const Display = () => {
 
 
     }
-
+    
     const submitAnswer = (currentGuid: string) => {
         const url = 'https://localhost:7195/api/AnswersExplaination/';
         //server call to check the answer , client check no good as answer values
@@ -165,14 +167,14 @@ const Display = () => {
 
 
     return (
-
+     
         <Container>
             <Row>
                 <Col>
-
+                    
                     {
                         currentQuestionNumber === -1 &&
-                        <Button variant="secondary" onClick={() => getQuestions()}>   Load Questions  </Button>
+                        <Button variant="secondary" onClick={() => getQuestions()}> Click when ready    </Button>
                     }
 
                 </Col>
@@ -180,27 +182,30 @@ const Display = () => {
             <Row>
 
                 <Col lg="7" md="7">
-                    <div className="card" onClick={(event) => flipCard(event, true, questions[currentQuestionNumber].isSubmitted)}>
-                    <div className="front">
                     {
-                        currentQuestionNumber >= 0 &&
-                        <Question key={questions[currentQuestionNumber].guid} data={questions[currentQuestionNumber]} handleAnswerChange={handleAnswerChange} />
+                     currentQuestionNumber >= 0 &&
+                        
+                        <div className="card" onClick={(event) => flipCard(event, true, questions[currentQuestionNumber].isSubmitted)}>
+                            <div className="front">
+                               
 
-                    }
-                    </div>
-                    <div className="back"> 
-                        {
-                            currentQuestionNumber >= 0 &&
-                            questions[currentQuestionNumber].explanation
-                        }
+                                    <Question key={questions[currentQuestionNumber].guid} data={questions[currentQuestionNumber]} handleAnswerChange={handleAnswerChange} />
+
+                                
+                            </div>
+                            <div className="back"> 
+
+                                    {questions[currentQuestionNumber].explanation}
+                               
+                            </div>
                         </div>
-                     </div>
+                    }
                 </Col>
 
                 <Col lg="3" md="3" className="d-none d-md-block" >
-
-                    <StatusPanel data={questions} current={currentQuestionNumber} handleNavigationClick={handleNavigationClick} />
-
+                    {currentQuestionNumber >= 0 &&
+                        <StatusPanel data={questions} current={currentQuestionNumber} handleNavigationClick={handleNavigationClick} />
+                    }
                 </Col>
                 <Col>
                     {
@@ -239,6 +244,6 @@ const Display = () => {
 
 
  
-export default Display;
+export default FlashCard;
  
 

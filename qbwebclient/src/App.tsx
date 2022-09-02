@@ -107,7 +107,7 @@ function App() {
                 <BrowserRouter>
                     <Routes>
                             <Route path="/" element={<Layout data={applicationSession} handleMenuLogout={handleLogout} />}>
-                                <Route path="/student" element={<Student data={applicationSession} />}></Route>
+                                <Route  path="/student" element={<Student data={applicationSession} />}></Route>
                             <Route path="/admin" element={<Admin/>}></Route>
                             {/*<Route path="/faculty/:id" element={<FacultyDetial />}></Route>*/}
                             {/*<Route path="/faculty/add" element={<FacultyAdd />}></Route>*/}

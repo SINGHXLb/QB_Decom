@@ -1,9 +1,4 @@
-
-
-
-
 import './StatusPanel.css';
-
 
 interface PanelModel {
     data: {

@@ -1,4 +1,4 @@
-import QuestionSet from './Student/QuestionSet'
+import QuestionSet from './QuestionSet'
 import React from 'react'; 
 
  
@@ -17,6 +17,8 @@ interface LoginInfo
 }
 
 function StudentUI(props: LoginInfo) {
+    console.log("Student.tsx");
+
   return (
       < >
           <QuestionSet data={props.data} />  
