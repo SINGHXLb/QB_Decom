@@ -14,6 +14,11 @@
         public bool IsChecked { get; set; }
 
     }
+    public class AnswersExplain
+    {
+        public List<Answer> Answers { get; set; }
+        public string Explaination { get; set; }
+    }
 
     public class QuestionTypes
     {
@@ -35,6 +40,7 @@
         public int? Difficulty { get; set; }
         public DateTime? CreatedOn { get; set; }
         public bool IsVerified { get; set; }
+        public string Explaination { get; set; }
 
         //client side support  
         public bool  isSubmitted { get; set; }
@@ -43,8 +49,12 @@
 
     }
 
-    public class QuestionSetAPIResponseModel 
-       {
+    public class QuestionSetDTO 
+    {
+        public  QuestionSetDTO()
+        {
+            Questions = new List<QuestionModel>();
+        }
         public Guid Guid { get; set; }
         public List<QuestionModel> Questions { get; set; }
     }

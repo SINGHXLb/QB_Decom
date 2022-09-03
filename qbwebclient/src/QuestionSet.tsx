@@ -31,9 +31,9 @@ export const QuestionSet = (prop: LoginInfo) => {
         creationDate: "",
         createdBy: ""
     };
-    const initialQuestionsets = [initialQuestionset];
 
-    const  [questionsets, setQuestionSet] = useState(initialQuestionsets);
+   const initialQuestionsets = [initialQuestionset];
+   const  [questionsets, setQuestionSet] = useState(initialQuestionsets);
    const [currentQuestionSetID, setCurrentQuestionSetID] = useState("");
 
 
@@ -61,7 +61,6 @@ export const QuestionSet = (prop: LoginInfo) => {
             }
             
             {
-                
                 currentQuestionSetID !== "" && <FlashCard questionsetId={currentQuestionSetID} />
             }
       </ >

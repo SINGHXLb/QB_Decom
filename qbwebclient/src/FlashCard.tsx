@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from 'axios'; 
 import Question from './Question';
 import StatusPanel from './StatusPanel';
@@ -12,9 +12,9 @@ import './FlashCard.css';
 
 //https://localhost:7195/QB
 
-const FlashCard = (props: {questionsetId:string}) => {
+const FlashCard = (props: { questionsetId: string }) => {
 
-  
+
 
     const initialState = [{
         guid: "",
@@ -30,19 +30,18 @@ const FlashCard = (props: {questionsetId:string}) => {
         difficulty: 0,
         isSubmitted: false,
         hasCorrectAnswer: false,
-        explanation:""
+        explanation: ""
     }];
 
     const handleNavigationClick = (event: React.MouseEvent<HTMLInputElement>, index: number) => {
         setCurrentQuestion(index);
     }
 
-    const flipCard = (event: React.MouseEvent<HTMLDivElement>, isfront:boolean ,canflip:boolean) => {
-       
-        if (canflip)
-        {
+    const flipCard = (event: React.MouseEvent<HTMLDivElement>, isfront: boolean, canflip: boolean) => {
 
-            event.currentTarget.classList.toggle('flipping'); 
+        if (canflip) {
+
+            event.currentTarget.classList.toggle('flipping');
 
         }
 
@@ -80,8 +79,8 @@ const FlashCard = (props: {questionsetId:string}) => {
 
     };
 
-    
 
+    const QuestionSetGuid = "";
     const [questions, setQuestions] = useState(initialState);
     const [currentQuestionNumber, setCurrentQuestion] = useState(-1);
     const url = 'https://localhost:7195/api/Questions/';
@@ -97,7 +96,9 @@ const FlashCard = (props: {questionsetId:string}) => {
 
 
     }
-    
+
+
+
     const submitAnswer = (currentGuid: string) => {
         const url = 'https://localhost:7195/api/AnswersExplaination/';
         //server call to check the answer , client check no good as answer values
@@ -130,8 +131,8 @@ const FlashCard = (props: {questionsetId:string}) => {
                     //set question to submitted
                     questions.find(i => i.guid === currentGuid)!.isSubmitted = true;
 
-                    //set correct answers in state to do react magic
 
+                    //set correct answers in state to do react magic
                     questions.find(i => i.guid === currentGuid)!.answers.forEach(localanswer => {
                         localanswer.isAnswer = (correctAnswers.answers.filter(correctans => correctans.id === localanswer.id).length > 0);
                     });
@@ -154,6 +155,7 @@ const FlashCard = (props: {questionsetId:string}) => {
 
                     });
                     questions.find(i => i.guid === currentGuid)!.hasCorrectAnswer = hascorrectAnswers;
+
                     return newState;
 
                 });
@@ -161,8 +163,26 @@ const FlashCard = (props: {questionsetId:string}) => {
             })
             .catch(error => console.error('error submitting '))
 
-
     }
+
+
+    //Check if all questions are submitted  , if yes , persist user-questionset information. 
+    useEffect(() => {
+        if (questions.filter(i => i.isSubmitted).length === questions.length) {
+            alert();
+        }
+    }, [questions]);
+
+
+       //  const urlP = 'https://localhost:7195/api/UserQuestionSet';
+
+            //const data = '{"useremail": "' +applicationSession.emailID +'"}'
+
+
+            //    axios.post(urlP, applicationSession)
+            //        .then((response) => { }
+
+            //}
 
 
 
@@ -246,4 +266,5 @@ const FlashCard = (props: {questionsetId:string}) => {
  
 export default FlashCard;
  
+
 

@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using QB2API.Model;
+using QB2API.Model; 
 
 namespace QB2API.Controllers
 {
@@ -34,13 +34,14 @@ namespace QB2API.Controllers
         }
 
         [HttpGet("UserQuestionSet/{Guid}")]
-        public QuestionSetAPIResponseModel UserQuestionSet(Guid Guid)
+        public QuestionSetDTO UserQuestionSet(Guid Guid)
         {
-            QuestionSetAPIResponseModel result = new QuestionSetAPIResponseModel();
+            QuestionSetDTO result = new QuestionSetDTO();
             Model.QBDBContext c = new QBDBContext();
 
             result = c.UserQuestionSets
-                .Select(x => new QuestionSetAPIResponseModel
+                .Where(x=> x.Guid == Guid)
+                .Select(x => new QuestionSetDTO
                 {
                     Guid = x.Guid,
                     Questions = JsonConvert.DeserializeObject<List<QuestionModel>>(x.Data)
@@ -60,6 +61,23 @@ namespace QB2API.Controllers
             return result;
         }
 
+
+        [HttpPut("UserQuestionSet")]
+        public bool UserQuestionSet(QuestionSetDTO questionSet)
+        {
+            using (var db = new QBDBContext())
+            {
+                UserQuestionSet uQS 
+                    = db.UserQuestionSets.Where(x => x.Guid == questionSet.Guid).FirstOrDefault();
+                if (uQS != null)
+                {
+                    uQS.Data = JsonConvert.SerializeObject(questionSet.Questions);
+                    uQS.IsSubmitted = true;
+                    db.SaveChanges();
+                }
+            }
+           return true;
+        }
        
 
         [HttpGet("user/{userGUID}/QuestionSets")]
