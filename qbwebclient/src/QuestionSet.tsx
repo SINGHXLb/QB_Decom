@@ -1,10 +1,10 @@
 import React from 'react';
 import { useEffect , useState } from "react";
 import axios from 'axios'; 
-import { Link } from 'react-router-dom'
+
 import FlashCard from './FlashCard'
 import Button from 'react-bootstrap/Button';
-import { Console } from 'console';
+
 
 interface LoginInfo {
     data: {

@@ -9,7 +9,7 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import './FlashCard.css';
-import qs from "qs";
+/*import qs from "qs";*/
 
 
 //https://localhost:7195/QB
