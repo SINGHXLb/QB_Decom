@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using QB2API.Dto;
 using QB2API.Model;
 
 namespace QB2API.Controllers
 {
-    
+
     [Route("api")]
     [ApiController]
     public class QBController : ControllerBase
@@ -12,46 +13,47 @@ namespace QB2API.Controllers
 
 
         [HttpGet("Questions")]
-        public List<QuestionModel> Get()
+        public List<QuestionModelDTO> Get()
         {
-            List<QuestionModel> result = new List<QuestionModel>();
+            List<QuestionModelDTO> result = new List<QuestionModelDTO>();
             Model.QBDBContext c = new QBDBContext();
 
             string result1 = String.Join(",", c.QuestionStores.Select(x => x.Data)); ;
             result1 = "[" + result1 + "]";
 
             result =
-                JsonConvert.DeserializeObject<List<QuestionModel>>(result1);
+                JsonConvert.DeserializeObject<List<QuestionModelDTO>>(result1);
 
             //remove answer 
-            foreach (QuestionModel quesiton in result)
+            foreach (QuestionModelDTO quesiton in result)
             {
-                quesiton.Explaination = "";
-                foreach (Answer ans in quesiton.Answers)
+                quesiton.Explanation   = "";
+                foreach (AnswerDTO ans in quesiton.Answers)
                 { ans.IsAnswer = false; }
             }
             return result;
         }
 
-        [HttpGet("UserQuestionSet/{Guid}")]
-        public QuestionSetAPIResponseModel UserQuestionSet(Guid Guid)
+        [HttpGet("User/{userGUID}/QuestionSet/{questionSetGUID}")]
+        public QuestionSetDTO UserQuestionSet(Guid questionSetGUID, Guid userGUID)
         {
-            QuestionSetAPIResponseModel result = new QuestionSetAPIResponseModel();
+            QuestionSetDTO result = new QuestionSetDTO();
             Model.QBDBContext c = new QBDBContext();
 
             result = c.UserQuestionSets
-                .Select(x => new QuestionSetAPIResponseModel
+                .Where(x=> x.QuestionSetGuid == questionSetGUID && x.UserGuid == userGUID)
+                .Select(x => new QuestionSetDTO
                 {
                     Guid = x.Guid,
-                    Questions = JsonConvert.DeserializeObject<List<QuestionModel>>(x.Data)
+                    Questions = JsonConvert.DeserializeObject<List<QuestionModelDTO>>(x.Data)
                 }).First();
 
-            //DENORMALIZED
-            foreach (QuestionModel quesiton in result.Questions)
+         
+            foreach (QuestionModelDTO quesiton in result.Questions)
             {
                 if (!quesiton.isSubmitted)
                 {
-                    foreach (Answer ans in quesiton.Answers)
+                    foreach (AnswerDTO ans in quesiton.Answers)
                     {
                         ans.IsAnswer = false;
                     }
@@ -60,10 +62,27 @@ namespace QB2API.Controllers
             return result;
         }
 
+
+        [HttpPut("UserQuestionSet")]
+        public bool UserQuestionSet([FromBody] UserQuestionSetDTO UserQuestionSet)
+        {
+            using (var db = new QBDBContext())
+            {
+                UserQuestionSet uQS 
+                    = db.UserQuestionSets.Find(UserQuestionSet.questionSet.Guid);
+                if (uQS != null)
+                {
+                    uQS.Data = JsonConvert.SerializeObject(UserQuestionSet.questionSet.Questions);
+                    uQS.IsSubmitted = true;
+                    db.SaveChanges();
+                }
+            }
+           return true;
+        }
        
 
         [HttpGet("user/{userGUID}/QuestionSets")]
-        public List<QuestionSet> UserQuestionSets(Guid userGUID)
+        public List<UserQuestionSetInfoDTO> UserQuestionSets(Guid userGUID)
         {
             Model.QBDBContext c = new QBDBContext();
 
@@ -71,10 +90,10 @@ namespace QB2API.Controllers
                 Where(x=>x.UserGuid == userGUID)
                 .Select(x => x.QuestionSetGuid).ToList();
 
-            List<QuestionSet> questionSets = new List<QuestionSet>();
+            List<UserQuestionSetInfoDTO> questionSets = new List<UserQuestionSetInfoDTO>();
             foreach (Guid QuestionSetGuid in QuestionSetGuids)
             {
-                QuestionSet questionSet = new QuestionSet();
+                UserQuestionSetInfoDTO questionSet = new UserQuestionSetInfoDTO();
                 questionSet.Guid = QuestionSetGuid;
                 questionSet.QuestionSetName = 
                 c.QuestionSets
@@ -89,17 +108,17 @@ namespace QB2API.Controllers
 
 
         [HttpGet("AnswersExplaination/{Guid}")]
-        public AnswersExplain AnswersExplaination(Guid Guid)
+        public AnswersExplainDTO AnswersExplaination(Guid Guid)
         {
-            AnswersExplain result = new AnswersExplain();
-            List<Answer> answers = new List<Answer>();
+            AnswersExplainDTO result = new AnswersExplainDTO();
+            List<AnswerDTO> answers = new List<AnswerDTO>();
             Model.QBDBContext c = new QBDBContext();
-            answers = JsonConvert.DeserializeObject<QuestionModel>(
+            answers = JsonConvert.DeserializeObject<QuestionModelDTO>(
                  c.QuestionStores.Where(x => x.Guid == Guid)!.FirstOrDefault()!.Data)
                 .Answers.Where(ans => ans.IsAnswer == true).ToList();
             result.Answers = answers;
-            result.Explaination = JsonConvert.DeserializeObject<QuestionModel>(
-                 c.QuestionStores.Where(x => x.Guid == Guid)!.FirstOrDefault()!.Data).Explaination;
+            result.Explanation = JsonConvert.DeserializeObject<QuestionModelDTO>(
+                 c.QuestionStores.Where(x => x.Guid == Guid)!.FirstOrDefault()!.Data).Explanation;
             //I dont like it but i have no 
 
             return result;
