@@ -27,7 +27,7 @@ namespace QB2API.Controllers
             //remove answer 
             foreach (QuestionModelDTO quesiton in result)
             {
-                quesiton.Explaination = "";
+                quesiton.Explanation   = "";
                 foreach (AnswerDTO ans in quesiton.Answers)
                 { ans.IsAnswer = false; }
             }
@@ -117,8 +117,8 @@ namespace QB2API.Controllers
                  c.QuestionStores.Where(x => x.Guid == Guid)!.FirstOrDefault()!.Data)
                 .Answers.Where(ans => ans.IsAnswer == true).ToList();
             result.Answers = answers;
-            result.Explaination = JsonConvert.DeserializeObject<QuestionModelDTO>(
-                 c.QuestionStores.Where(x => x.Guid == Guid)!.FirstOrDefault()!.Data).Explaination;
+            result.Explanation = JsonConvert.DeserializeObject<QuestionModelDTO>(
+                 c.QuestionStores.Where(x => x.Guid == Guid)!.FirstOrDefault()!.Data).Explanation;
             //I dont like it but i have no 
 
             return result;

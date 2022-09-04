@@ -8,7 +8,7 @@
         public string AnswerText { get; set; }
         public string AnswerImage { get; set; }
         public bool IsAnswer { get; set; }
-
+      
 
         //client side support  
         public bool IsChecked { get; set; }
@@ -17,7 +17,7 @@
     public class AnswersExplainDTO
     {
         public List<AnswerDTO> Answers { get; set; }
-        public string Explaination { get; set; }
+        public string Explanation { get; set; }
     }
 
     public class QuestionTypesDTO
@@ -40,8 +40,8 @@
         public int? Difficulty { get; set; }
         public DateTime? CreatedOn { get; set; }
         public bool IsVerified { get; set; }
-        public string Explaination { get; set; }
-
+        public string Explanation { get; set; }
+                       
         //client side support  
         public bool isSubmitted { get; set; }
         public bool isCorrect { get; set; }

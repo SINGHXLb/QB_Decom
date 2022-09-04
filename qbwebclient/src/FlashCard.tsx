@@ -121,15 +121,13 @@ const FlashCard = (props: { questionsetId: string, userGUID : string}) => {
                                 "answerText": "",
                                 "answerImage": "",
                                 "isAnswer": true,
-                                "isChecked": true,
-                                "explaination": ""
+                                "isChecked": true
                             }
                         ],
-                        "explaination": ""
+                        "explanation": ""
                     };
 
                 correctAnswers = response.data;
-                console.log(correctAnswers);
 
                 setQuestionSet((questionSet) => {
                     var newState = Object.assign([], questionSet);
@@ -145,7 +143,7 @@ const FlashCard = (props: { questionsetId: string, userGUID : string}) => {
                     });
 
                     //set explanation of submitted questions 
-                    questionSet.questions.find(i => i.guid === currentGuid)!.explanation = correctAnswers.explaination;
+                    questionSet.questions.find(i => i.guid === currentGuid)!.explanation = correctAnswers.explanation;
 
                     // if all and only correct answers are checked ,
                     //then set 'hasCorrectAnswer' property to true
@@ -185,7 +183,7 @@ const FlashCard = (props: { questionsetId: string, userGUID : string}) => {
         console.log(payload);
         if (questionSet.questions.filter(i => i.isSubmitted).length === questionSet.questions.length) { 
             const urlP = 'https://localhost:7195/api/UserQuestionSet/';  
-            axios.put(urlP, payload, { headers: { 'content-type': 'application/json' } } ).then((response) => {
+            axios.put(urlP, payload /*{ headers: { 'content-type': 'application/json' } }*/ ).then((response) => {
                 alert(questionSet.questions.filter(i => i.isSubmitted).length)
             })
         }
