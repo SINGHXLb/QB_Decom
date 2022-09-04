@@ -22,7 +22,7 @@ interface LoginInfo {
 
 export const QuestionSet = (prop: LoginInfo) => {    
      
-    console.log("QuestionSet.tsx");
+    
     const initialQuestionset =
     {
         guid: "",
@@ -61,7 +61,7 @@ export const QuestionSet = (prop: LoginInfo) => {
             }
             
             {
-                currentQuestionSetID !== "" && <FlashCard questionsetId={currentQuestionSetID} />
+                currentQuestionSetID !== "" && <FlashCard userGUID={prop.data.guid} questionsetId={currentQuestionSetID} />
             }
       </ >
   );

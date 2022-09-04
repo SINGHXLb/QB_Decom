@@ -18,7 +18,7 @@ namespace QB2API.Controllers
 
 
         [HttpPost("login")]
-        public IActionResult login([FromBody] UserState _state)
+        public IActionResult login([FromBody] UserStateDTO _state)
         {
 
         Model.QBDBContext c = new QBDBContext();
@@ -52,7 +52,7 @@ namespace QB2API.Controllers
         }
     }
 
-    public class UserState 
+    public class UserStateDTO 
     {
       public string? EmailID { get; set; }
       public string? Authkey { get; set; }

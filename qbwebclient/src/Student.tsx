@@ -17,7 +17,7 @@ interface LoginInfo
 }
 
 function StudentUI(props: LoginInfo) {
-    console.log("Student.tsx");
+    console.log(props);
 
   return (
       < >
