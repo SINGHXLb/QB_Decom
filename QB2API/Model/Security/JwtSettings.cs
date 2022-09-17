@@ -3,6 +3,12 @@
      
     public class JwtSettings
     {
+        public JwtSettings()
+        {
+            IssuerSigningKey = "XXXX";
+            ValidIssuer = "XXXX"; 
+            ValidAudience = "XXXX"; 
+        }
         public bool ValidateIssuerSigningKey
         {
             get;
