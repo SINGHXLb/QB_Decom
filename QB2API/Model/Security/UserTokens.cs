@@ -3,6 +3,15 @@
     
     public class UserTokens
     {
+        public UserTokens() 
+        {
+            this.Token= "XXXX";
+            this.UserName = "XXXX";
+            this.RefreshToken = "XXXX";
+            this.Id = "XXXX";
+            this.EmailId = "XXXX";
+
+        }
         public string Token
         {
             get;
