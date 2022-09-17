@@ -106,9 +106,9 @@ function App() {
                 applicationSession.isAuthenticated &&
                 <BrowserRouter>
                     <Routes>
-                            <Route path="/student" element={<Student data={applicationSession} />}></Route>
-                            <Route path="/admin" element={<Admin />}></Route>
-                            <Route path="/" element={<Layout data={applicationSession} handleMenuLogout={handleLogout} />}>
+                            <Route exact  path="/student" element={<Student data={applicationSession} />}></Route>
+                            <Route exact  path="/admin" element={<Admin />}></Route>
+                            <Route exact path="/" element={<Layout data={applicationSession} handleMenuLogout={handleLogout} />}>
                             {/*<Route path="/faculty/:id" element={<FacultyDetial />}></Route>*/}
                             {/*<Route path="/faculty/add" element={<FacultyAdd />}></Route>*/}
                             {/*<Route path="/faculty/edit/:id" element={<FacultyAdd />}></Route>*/}
