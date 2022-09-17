@@ -44,9 +44,9 @@ namespace QB2API.Controllers
                 }
                 return Ok(Token);
             }
-            catch (Exception ex)
+            catch (Exception )
             {
-                throw;
+                throw ;
             }
           
         }
