@@ -4,6 +4,12 @@
     // Root myDeserializedClass = JsonConvert.DeserializeObject<Root>(myJsonResponse);
     public class AnswerDTO
     {
+        public AnswerDTO()
+        {
+            this.AnswerText=String.Empty;
+            this.ID = String.Empty;
+            this.AnswerImage = String.Empty;
+        }
         public string ID { get; set; }
         public string AnswerText { get; set; }
         public string AnswerImage { get; set; }
@@ -16,6 +22,11 @@
     }
     public class AnswersExplainDTO
     {
+        public AnswersExplainDTO()
+        {
+            this.Answers = new List<AnswerDTO>();
+            this.Explanation = String.Empty;
+        }
         public List<AnswerDTO> Answers { get; set; }
         public string Explanation { get; set; }
     }
@@ -28,6 +39,17 @@
 
     public class QuestionModelDTO
     {
+        public QuestionModelDTO()
+        {
+            this.Topic = String.Empty;
+            this.Concept = new List<string>();
+            this.tags = new List<string>();
+            this.QuestionText = String.Empty;
+            this.QuestionImage = String.Empty;
+            this.Answers = new List<AnswerDTO>();
+            this.Explanation = String.Empty;
+           
+        }
         public Guid Guid { get; set; }
         public string Topic { get; set; }
         public List<string> Concept { get; set; }
@@ -50,6 +72,11 @@
     }
     public class UserQuestionSetDTO
     {
+        public UserQuestionSetDTO()
+        {
+            this.questionSet = new  QuestionSetDTO();
+            this.UserGuid = String.Empty;
+        }
         public QuestionSetDTO questionSet { get; set; }
         public string UserGuid { get; set; }
     }
