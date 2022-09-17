@@ -43,7 +43,7 @@ function App() {
 
     const handleLogin = (event: React.MouseEvent<HTMLButtonElement>) => {
 
-        const urlP = 'https://localhost:7195/api/login';
+        const urlP = 'https://qbui.azurewebsites.net/api/login';
 
         //const data = '{"useremail": "' +applicationSession.emailID +'"}'
 

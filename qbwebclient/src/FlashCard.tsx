@@ -12,7 +12,7 @@ import './FlashCard.css';
 /*import qs from "qs";*/
 
 
-//https://localhost:7195/QB
+//https://qbui.azurewebsites.net/api/QB
 
 const FlashCard = (props: { questionsetId: string, userGUID : string}) => {
 
@@ -91,7 +91,7 @@ const FlashCard = (props: { questionsetId: string, userGUID : string}) => {
     const [questionSet, setQuestionSet] = useState(questionSetinit);
    /* const [questions, setQuestions] = useState(initialState);*/
     const [currentQuestionNumber, setCurrentQuestion] = useState(-1);
-    const url = 'https://localhost:7195/api/User/' + props.userGUID +'/QuestionSet/'+ props.questionsetId;
+    const url = 'https://qbui.azurewebsites.net/api/User/' + props.userGUID +'/QuestionSet/'+ props.questionsetId;
 
     const getQuestions = () => {
         
@@ -107,7 +107,7 @@ const FlashCard = (props: { questionsetId: string, userGUID : string}) => {
 
 
     const submitAnswer = (currentGuid: string) => {
-        const url = 'https://localhost:7195/api/AnswersExplaination/';
+        const url = 'https://qbui.azurewebsites.net/api/AnswersExplaination/';
         //server call to check the answer , client check no good as answer values
         //shoud not be sent client side. 
         axios.get(url + currentGuid)
@@ -182,7 +182,7 @@ const FlashCard = (props: { questionsetId: string, userGUID : string}) => {
         };
         console.log(payload);
         if (questionSet.questions.filter(i => i.isSubmitted).length === questionSet.questions.length) { 
-            const urlP = 'https://localhost:7195/api/UserQuestionSet/';  
+            const urlP = 'https://qbui.azurewebsites.net/api/UserQuestionSet/';  
             axios.put(urlP, payload /*{ headers: { 'content-type': 'application/json' } }*/ ).then((response) => {
                 alert(questionSet.questions.filter(i => i.isSubmitted).length)
             })
